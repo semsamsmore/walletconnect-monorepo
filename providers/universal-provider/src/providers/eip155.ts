@@ -54,7 +54,8 @@ class Eip155Provider implements IProvider {
     if (this.namespace.methods.includes(args.request.method)) {
       return await this.client.request(args as EngineTypes.RequestParams);
     }
-    return this.getHttpProvider().request(args.request);
+    // FIX: was missing await and was not returning the awaited promise causing any requests after chainSwitch to hang / auto reject
+    return await this.getHttpProvider().request(args.request);
   }
 
   public updateNamespace(namespace: SessionTypes.Namespace) {
